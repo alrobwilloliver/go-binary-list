@@ -1,11 +1,33 @@
 package main
 
-import "fmt"
+import (
+	"flag"
+	"fmt"
+	"os"
+)
 
 func main() {
+	fs := flag.NewFlagSet("binary-list", flag.ExitOnError)
+	var i int
+	fs.IntVar(&i, "t", 1, "The target to look for")
+	fs.PrintDefaults()
+	fs.Parse(os.Args[1:])
 	list := []int{1, 2, 3, 3, 4, 5, 6, 8, 10, 11, 13, 23, 53, 74, 87}
-	find := binarySearch(list, 2, len(list)-1, 0)
+	// if !Contains(list, i) {
+	// 	fmt.Println("The target doesn't appear in the list!")
+	// 	return
+	// }
+	find := binarySearch(list, i, len(list)-1, 0)
 	fmt.Printf("The target is at index %d\n", find)
+}
+
+func Contains(list []int, x int) bool {
+	for _, item := range list {
+		if item == x {
+			return true
+		}
+	}
+	return false
 }
 
 func binarySearch(array []int, target int, highIndex int, lowIndex int) int {
